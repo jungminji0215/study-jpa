@@ -18,17 +18,23 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        // 회원 객체 생성
-        Member member = new Member();
+        try {
+            // 회원 객체 생성
+            Member member = new Member();
 
-        member.setId(1L);
-        member.setName("정민지");
-        em.persist(member);
-        tx.commit();
+            member.setId(1L);
+            member.setName("정민지");
+            em.persist(member);
 
-        // 종료
-        em.close();
+            tx.commit();
+
+        }catch (Exception e){
+            tx.rollback();
+        }finally {
+            // 종료 - 꼭 닫아주어야 함
+            em.close();
+        }
+     
         emf.close();
-
     }
 }
