@@ -19,12 +19,9 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 회원 객체 생성
-            Member member = new Member();
-
-            member.setId(1L);
-            member.setName("정민지");
-            em.persist(member);
+            // 회원 찾기
+            Member findMember =  em.find(Member.class, 1L);
+            findMember.setName("정민지짱"); // 수정은 이게 끝
 
             tx.commit();
 
@@ -34,7 +31,7 @@ public class JpaMain {
             // 종료 - 꼭 닫아주어야 함
             em.close();
         }
-     
+
         emf.close();
     }
 }
