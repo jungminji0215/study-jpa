@@ -2,6 +2,7 @@ package jpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class JpaMain {
@@ -13,8 +14,20 @@ public class JpaMain {
 
         EntityManager em = emf.createEntityManager();
 
-        em.close();
+        // 완젼 중요 - 트랜젝션
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
 
+        // 회원 객체 생성
+        Member member = new Member();
+
+        member.setId(1L);
+        member.setName("정민지");
+        em.persist(member);
+        tx.commit();
+
+        // 종료
+        em.close();
         emf.close();
 
     }
