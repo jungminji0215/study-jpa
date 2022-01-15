@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -19,9 +20,14 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 회원 찾기
-            Member findMember =  em.find(Member.class, 1L);
-            findMember.setName("정민지짱"); // 수정은 이게 끝
+            List<Member> findMemberAll = em.createQuery("select m from Member as m", Member.class)
+                    .setFirstResult(1) // 페이징이 굉장히 쉽다.
+                    .setMaxResults(2)
+                    .getResultList();
+
+            for(Member member : findMemberAll){
+                System.out.println("회원: " + member.getName());
+            }
 
             tx.commit();
 
