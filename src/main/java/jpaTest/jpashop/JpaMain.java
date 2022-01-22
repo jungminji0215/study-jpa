@@ -1,4 +1,6 @@
-package jpaTest;
+package jpaTest.jpashop;
+
+import jpaTest.jpashop.domain.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,14 +22,14 @@ public class JpaMain {
         tx.begin();
 
         try {
-            List<Member> findMemberAll = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1) // 페이징이 굉장히 쉽다.
-                    .setMaxResults(2)
-                    .getResultList();
+            Member member = new Member();
+            member.setId(1L);
+            member.setName("정민지");
+            member.setCity("판교");
+            member.setStreet("거리");
+            member.setZipcode("1");
 
-            for(Member member : findMemberAll){
-                System.out.println("회원: " + member.getName());
-            }
+            em.persist(member);
 
             tx.commit();
 
